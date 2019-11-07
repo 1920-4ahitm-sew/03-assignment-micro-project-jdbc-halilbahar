@@ -57,4 +57,27 @@ public class Database {
 
         return customerList;
     }
+
+    public Customer selectCustomerById(long id) {
+        Customer customer = null;
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT FIRST_NAME, LAST_NAME FROM CUSTOMER WHERE CUSTOMER_ID = ?"
+            );
+            statement.setLong(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String firstName = resultSet.getString(1);
+                String lastName = resultSet.getString(2);
+                customer = new Customer(id, firstName, lastName);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
+
 }
