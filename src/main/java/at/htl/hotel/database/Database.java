@@ -1,8 +1,10 @@
 package at.htl.hotel.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import at.htl.hotel.model.Customer;
+
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Database {
     private static final String DRIVER_STRING = "org.apache.derby.jdbc.ClientDriver";
@@ -30,5 +32,29 @@ public class Database {
         } catch (SQLException e) {
             System.out.println("Could not open Connection to database: \n" + e.getMessage());
         }
+    }
+
+    public List<Customer> selectAllCustomer() {
+        List<Customer> customerList = new LinkedList<>();
+
+        try {
+            PreparedStatement statement = this.connection.prepareStatement(
+                    "SELECT CUSTOMER_ID, FIRST_NAME, LAST_NAME FROM CUSTOMER"
+            );
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                long id = resultSet.getLong(1);
+                String firstName = resultSet.getString(2);
+                String lastName = resultSet.getString(3);
+                customerList.add(new Customer(id, firstName, lastName));
+            }
+            resultSet.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return customerList;
     }
 }
