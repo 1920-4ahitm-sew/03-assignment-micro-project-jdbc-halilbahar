@@ -28,5 +28,13 @@ public class CustomerEndpointIT {
         assertThat(response.getStatus(), is(200));
     }
 
+    @Test
+    public void getCustomer() {
+        Response response = this.webTarget
+                .path("1")
+                .request(MediaType.APPLICATION_JSON)
+                .get();
+        assertThat(response.getStatus(), is(200));
+    }
 
 }
