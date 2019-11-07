@@ -23,7 +23,7 @@ public class CustomerEndpointIT {
     }
 
     @Test
-    public void getAllVehicles() {
+    public void getAllCustomer() {
         Response response = this.webTarget.request(MediaType.APPLICATION_JSON).get();
         assertThat(response.getStatus(), is(200));
     }
